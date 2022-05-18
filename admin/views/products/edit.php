@@ -1,0 +1,164 @@
+
+<?php 
+include_once('views/layout/header.php');
+?>
+<style type="text/css">
+  label.error,.red{
+    
+  color: red;
+  font-size: 15px;
+  width: 100% !important;
+    padding: 0px;
+    margin: 10px 0px 0px;
+}
+.error{
+  font-size: 15px;
+}
+input {
+  width: 100% !important;
+}
+</style>
+
+<div class="container bootstrap snippet">
+
+  <div><h1>Cập nhật thông tin sản phẩm</h1></div>
+
+          <form action="?mod=product&act=update&CODE=<?= $details['CODE']?>"" method="POST" role="form" " enctype="multipart/form-data"  class='formValidate'>
+  <div class="row">
+
+    <div class="col-sm-3">
+      <div class="text-center">
+        <img src="public/images/products/<?= $details['PICTURE']?>" class="avatar img-circle img-thumbnail" alt="avatar">
+        <input type="file" name="PICTURE" class="text-center center-block file-upload">
+      </div><hr><br>              
+    </div>
+    
+    <div class="col-sm-9">
+      <div class="tab-content">
+        <div class="tab-pane active" id="home">
+          <hr>     
+            <div class="form-group">
+            <div class="col-xs-6">
+              <label for=""><h4>Tên sản phẩm</h4></label>
+              <input type="text" class="form-control"  value="<?= $details['NAME']?>" name="NAME">
+            </div>
+          </div>
+           <div class="form-group">
+
+              <div class="col-xs-6">
+                <label for=""><h4>Số lượng</h4></label>
+                <input type="number" class="form-control" value="<?= $details['QUANTITY']?>" name="QUANTITY">
+              </div>
+            </div>
+
+            <div class="form-group">
+
+              <div class="col-xs-6">
+                <label for=""><h4>Đơn giá</h4></label>
+                <input type="number" class="form-control"  value="<?= $details['PRICE']?>" name="PRICE">
+              </div>
+            </div>
+
+            <div class="form-group">
+
+              <div class="col-xs-6">
+                <label for="inputState">Loại sản phẩm</label>
+                <select id="inputState" class="form-control" name="TYPE">
+                  <?php foreach ($data_type as $value) {
+                    if (substr($value['CATEGORY_CODE'],0,3)=='LSP') {
+                   ?>
+                    
+                   <option value='<?=$value['CATEGORY_CODE']?>'><?=$value['CATEGORY_NAME']?></option>
+                 
+                <?php  } } ?>
+                </select>
+              </div>
+            </div>
+
+          
+          
+         
+
+
+        <div class="form-group">
+         <div class="col-xs-12">
+          <br>
+          <button class="btn btn-lg btn-success" type="submit" name="submit">
+            <i class="glyphicon glyphicon-ok-sign"></i> Lưu</button>
+        </div>
+      </div>
+
+
+    <hr>
+
+  </div>
+
+
+
+</div> 
+</div> 
+
+</div> 
+    </form>
+
+<?php 
+include_once('views/layout/footer.php');
+?>
+<script type="text/javascript">
+  $(document).ready(function() {
+
+
+    var readURL = function(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('.avatar').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    
+
+    $(".file-upload").on('change', function(){
+      readURL(this);
+    });
+  });
+
+  $(document).ready(function() {
+ 
+        //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+        $(".formValidate").validate({
+            rules: {
+                EMAIL: "required",
+                NAME: "required",
+                DATE: "required",
+                MOBILE: "required",
+                ADDRESS: "required",
+                PASSWORD: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                EMAIL: "Vui lòng nhập email",
+                NAME: "Vui lòng nhập họ và tên",
+                DATE: "Vui lòng nhập ngày sinh",
+                MOBILE: "Vui lòng nhập số điện thoại",
+                ADDRESS: "Vui lòng nhập địa chỉ",
+                PASSWORD: {
+                    required: "Vui lòng nhập mật khẩu",
+                    minlength: "Mật khẩu phải dài hơn 6 kí tự"
+                }
+            }
+        });
+
+
+    });
+</script>
+<?php if(isset($_COOKIE['notnew'])){ ?>
+      <script type="text/javascript">
+        toastr["error"]("Thêm mới thất bại","Thông báo:");
+    </script>
+<?php } ?>
